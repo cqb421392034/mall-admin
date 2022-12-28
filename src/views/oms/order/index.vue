@@ -181,13 +181,13 @@ onMounted(() => {
 
       <el-table-column align="center" label="订单来源">
         <template #default="scope">
-          <el-tag>{{ scope.row.sourceType }}</el-tag>
+          <el-tag>{{ orderSourceMap[scope.row.sourceType as keyof typeof orderSourceMap] }}</el-tag>
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="订单状态">
         <template #default="scope">
-          <el-tag>{{ scope.row.status }}</el-tag>
+          <el-tag>{{ orderStatusMap[scope.row.status as keyof typeof orderStatusMap] }}</el-tag>
         </template>
       </el-table-column>
 
@@ -205,7 +205,7 @@ onMounted(() => {
 
       <el-table-column align="center" label="支付方式">
         <template #default="scope">
-          <el-tag>{{ scope.row.payType }}</el-tag>
+          <el-tag>{{ payTypeMap[scope.row.payType as keyof typeof payTypeMap] }}</el-tag>
         </template>
       </el-table-column>
 
