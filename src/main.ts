@@ -1,7 +1,7 @@
 import { createApp, Directive } from 'vue';
 import App from './App.vue';
 import router from '@/router';
-
+import useDictStore from '@/store/modules/dict'
 import { createPinia } from 'pinia';
 
 import ElementPlus from 'element-plus';
@@ -33,7 +33,6 @@ Object.keys(directive).forEach((key) => {
 
 // 全局方法
 app.config.globalProperties.$listDictItemsByTypeCode = listDictItemsByTypeCode;
-
 // 注册全局组件
 app
   .component('Pagination', Pagination)
@@ -42,3 +41,6 @@ app
   .use(ElementPlus)
   .use(i18n)
   .mount('#app');
+
+
+app.config.globalProperties.$useDictStore = useDictStore();

@@ -5,40 +5,41 @@ export default {
 </script>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref, toRefs } from 'vue';
+import { onMounted, reactive, ref, toRefs, getCurrentInstance } from 'vue';
 import { ElForm } from 'element-plus';
 
 import { listOrderPages, getOrderDetail } from '@/api/oms/order';
 import { Search, Refresh } from '@element-plus/icons-vue';
 import { Order, OrderQuery } from '@/api/oms/order/types';
-
+import { DictItem } from '@/api/system/dict/types';
+const { proxy }: any = getCurrentInstance();
 const queryFormRef = ref(ElForm);
 
-const orderSourceMap = {
-  1: '微信小程序',
-  2: 'APP',
-  3: 'PC',
-};
+// const orderSourceMap = {
+//   1: '微信小程序',
+//   2: 'APP',
+//   3: 'PC',
+// };
 
-const orderStatusMap = {
-  101: '待付款',
-  102: '用户取消',
-  103: '系统取消',
-  201: '已付款',
-  202: '申请退款',
-  203: '已退款',
-  301: '待发货',
-  401: '已发货',
-  501: '用户收货',
-  502: '系统收货',
-  901: '已完成',
-};
+// const orderStatusMap = {
+//   101: '待付款',
+//   102: '用户取消',
+//   103: '系统取消',
+//   201: '已付款',
+//   202: '申请退款',
+//   203: '已退款',
+//   301: '待发货',
+//   401: '已发货',
+//   501: '用户收货',
+//   502: '系统收货',
+//   901: '已完成',
+// };
 
-const payTypeMap = {
-  1: '支付宝',
-  2: '微信',
-  3: '会员余额',
-};
+// const payTypeMap = {
+//   1: '支付宝',
+//   2: '微信',
+//   3: '会员余额',
+// };
 
 const state = reactive({
   loading: false,
@@ -105,6 +106,7 @@ function viewDetail(row: any) {
     state.orderDetail = response.data;
   });
 }
+console.log(proxy.$useDictStore.dictItems);
 
 onMounted(() => {
   handleQuery();
@@ -181,13 +183,14 @@ onMounted(() => {
 
       <el-table-column align="center" label="订单来源">
         <template #default="scope">
-          <el-tag>{{ orderSourceMap[scope.row.sourceType as keyof typeof orderSourceMap] }}</el-tag>
+          <el-tag>{{ proxy.$useDictStore?.dictItems?.find((el: DictItem) => el.value ==scope.row.status&&el.typeCode=='order_source_type')?.name||'无' }}</el-tag>
+
         </template>
       </el-table-column>
 
       <el-table-column align="center" label="订单状态">
         <template #default="scope">
-          <el-tag>{{ orderStatusMap[scope.row.status as keyof typeof orderStatusMap] }}</el-tag>
+          <el-tag>{{ proxy.$useDictStore?.dictItems?.find((el: DictItem) => el.value == scope.row.status&&el.typeCode=='order_status')?.name||'无' }}</el-tag>
         </template>
       </el-table-column>
 
@@ -205,7 +208,8 @@ onMounted(() => {
 
       <el-table-column align="center" label="支付方式">
         <template #default="scope">
-          <el-tag>{{ payTypeMap[scope.row.payType as keyof typeof payTypeMap] }}</el-tag>
+        <el-tag>{{ proxy.$useDictStore?.dictItems?.find((el: DictItem) => el.value ==scope.row.status&&el.typeCode=='pay_type')?.name||'无' }}</el-tag>
+
         </template>
       </el-table-column>
 

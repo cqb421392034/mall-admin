@@ -39,3 +39,13 @@ export interface TagsViewState {
   visitedViews: TagView[];
   cachedViews: string[];
 }
+export interface DictItem { 
+  id: number;
+  typeCode: string;
+  name: string;
+  value: string;
+  status: number;
+}
+export interface DictState { 
+  dictItems?: DictItem[];
+}

@@ -9,9 +9,13 @@ const whiteList = ['/login', '/auth-redirect'];
 
 router.beforeEach(async (to, from, next) => {
   NProgress.start();
-  const { user, permission } = useStore();
+  const { user, permission,dict } = useStore();
   const hasToken = user.token;
   if (hasToken) {
+    //判断是否已加载所有的字典，如果还没加载则进行加载
+    if (!dict.dictItems) { 
+      dict.getAllDictItems();
+    }
     // 登录成功，跳转到首页
     if (to.path === '/login') {
       next({ path: '/' });
