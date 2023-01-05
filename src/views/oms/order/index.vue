@@ -78,10 +78,7 @@ const state = reactive({
     },
     member: {},
     orderItems: [],
-  },
-  orderSourceMap,
-  orderStatusMap,
-  payTypeMap,
+  }
 });
 
 const { loading, queryParams, orderList, total, dateRange } = toRefs(state);
@@ -106,7 +103,6 @@ function viewDetail(row: any) {
     state.orderDetail = response.data;
   });
 }
-console.log(proxy.$useDictStore.dictItems);
 
 onMounted(() => {
   handleQuery();
@@ -138,12 +134,13 @@ onMounted(() => {
           v-model="queryParams.status"
           class="filter-item"
           placeholder="订单状态"
+          clearable
         >
           <el-option
-            v-for="(key, value) in orderStatusMap"
-            :key="key"
-            :label="key"
-            :value="value"
+            v-for="item in proxy.$useDictStore?.dictItems?.filter((el: DictItem) => el.typeCode == 'order_status')"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
           />
         </el-select>
       </el-form-item>
